@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Meng - 個人網頁</title>
+    <!-- 引入 Google Fonts 優化字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* 定義全局顏色變數與主題設計 */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --online-color: #10b981;
+            --online-glow: rgba(16, 185, 129, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "微軟正黑體";
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* 添加背景光暈效果，提升科技感與現代感 */
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 玻璃擬態 (Glassmorphism) 卡片設計 */
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3.5rem 5rem;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 40px var(--accent-glow);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            /* 漸層文字效果 */
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.05em;
+        }
+
+        /* 在線狀態徽章設計 */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--online-color);
+            margin-bottom: 3rem;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .status-badge:hover {
+            box-shadow: 0 0 25px var(--online-glow);
+        }
+
+        /* 呼吸燈效果的原點 */
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--online-color);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background-color: var(--online-color);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+
+            70% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        .time-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .date-display {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .time-display {
+            font-size: 4.5rem;
+            font-weight: 700;
+            /* 讓數字等寬顯示，避免秒數變化時寬度抖動 */
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 2.5rem 2rem;
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .time-display {
+                font-size: 3.5rem;
+            }
+
+            .date-display {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Daniel Meng</h1>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            <span>Online / 在線</span>
+        </div>
+        <div class="time-container">
+            <div class="date-display" id="date">載入中...</div>
+            <div class="time-display" id="time">00:00:00</div>
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+
+            // 處理日期：YYYY年MM月DD日 (可依需求調整格式)
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            // 可以加入星期
+            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            const weekday = weekdays[now.getDay()];
+
+            const dateStr = `${year}年${month}月${day}日 星期${weekday}`;
+
+            // 處理時間：HH:MM:SS
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeStr = `${hours}:${minutes}:${seconds}`;
+
+            // 更新 DOM
+            document.getElementById('date').textContent = dateStr;
+            document.getElementById('time').textContent = timeStr;
+        }
+
+        // 網頁載入時立即執行一次，避免出現空白或閃爍
+        updateDateTime();
+
+        // 設定每秒 (1000 毫秒) 更新一次
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+
+</html>
